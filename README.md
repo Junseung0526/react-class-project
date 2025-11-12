@@ -1,6 +1,6 @@
-# 🚀 프로젝트 명: The Professional Brief (직군 맞춤형 AI 뉴스 브리핑 서비스)
+# 프로젝트 명: 직군 맞춤형 AI 뉴스 브리핑 서비스
 
-## 🌟 프로젝트 개요
+## 프로젝트 개요
 
 The Professional Brief는 정보 과부하 환경에서 사용자의 업무 효율성 및 전문성 향상을 목적으로 개발되었습니다. 본 애플리케이션은 사용자의 직무(Job Role) 및 핵심 키워드를 기반으로 뉴스를 필터링하고, **Gemini API**를 활용하여 해당 직군의 전문가 관점에서 기사를 분석 및 요약하여 제공합니다.
 
@@ -8,7 +8,7 @@ The Professional Brief는 정보 과부하 환경에서 사용자의 업무 효�
 
 ***
 
-## 🎯 주요 기능 상세
+## 주요 기능 상세
 
 ### 1. 직무 기반 키워드 필터링 시스템
 * **직무 선택:** 소프트웨어 개발자, 디지털 마케터, 재무 분석가 등 사전 정의된 직무를 선택합니다.
@@ -25,7 +25,7 @@ The Professional Brief는 정보 과부하 환경에서 사용자의 업무 효�
 
 ***
 
-## 🛠️ 기술 스택 및 환경
+## 기술 스택 및 환경
 
 | 구분 | 기술 | 설명 |
 | :--- | :--- | :--- |
@@ -37,7 +37,7 @@ The Professional Brief는 정보 과부하 환경에서 사용자의 업무 효�
 
 ***
 
-## 🚀 개발 환경 설정
+## 개발 환경 설정
 
 ### 1. 환경 변수 설정
 
@@ -48,3 +48,29 @@ The Professional Brief는 정보 과부하 환경에서 사용자의 업무 효�
 REACT_APP_GEMINI_API_KEY="[Gemini API 키 입력]"
 REACT_APP_NAVER_CLIENT_ID="[네이버 개발자 센터 Client ID 입력]"
 REACT_APP_NAVER_CLIENT_SECRET="[네이버 개발자 센터 Client Secret 입력]"
+```
+
+### 2. 의존성 설치 및 실행
+
+# 1. 의존성 설치
+npm install
+
+# 2. 애플리케이션 실행
+npm run dev 
+# 또는
+npm start
+
+### 프로젝트 파일 구조 (권장)
+
+```ini
+/professional-brief
+├── /src
+│   ├── /components        # 재사용 가능한 UI 컴포넌트 집합
+│   ├── /utils             # API 호출 로직 및 상수 정의
+│   │   ├── api.js         # fetchNewsData, summarizeAndTag 함수
+│   │   └── constants.js   # JOB_ROLES 및 페르소나 정의 상수
+│   ├── App.jsx            # 메인 애플리케이션 컴포넌트
+│   └── index.js           
+├── .env                   # 환경 변수 파일
+└── package.json
+```
