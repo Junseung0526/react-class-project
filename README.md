@@ -1,16 +1,77 @@
-# React + Vite
+# 프로젝트 명: 직군 맞춤형 AI 뉴스 브리핑 서비스
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## 프로젝트 개요
 
-Currently, two official plugins are available:
+The Professional Brief는 정보 과부하 환경에서 사용자의 업무 효율성 및 전문성 향상을 목적으로 개발되었습니다. 본 애플리케이션은 사용자의 직무(Job Role) 및 핵심 키워드를 기반으로 뉴스를 필터링하고, **Gemini API**를 활용하여 해당 직군의 전문가 관점에서 기사를 분석 및 요약하여 제공합니다.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+본 프로젝트의 목표는 사용자가 방대한 정보 속에서 **핵심 정보**만을 신속하게 파악할 수 있도록 돕는 **AI 기반의 전문화된 뉴스 큐레이션 플랫폼**을 구축하는 것입니다.
 
-## React Compiler
+***
 
-The React Compiler is currently not compatible with SWC. See [this issue](https://github.com/vitejs/vite-plugin-react/issues/428) for tracking the progress.
+## 주요 기능 상세
 
-## Expanding the ESLint configuration
+### 1. 직무 기반 키워드 필터링 시스템
+* **직무 선택:** 소프트웨어 개발자, 디지털 마케터, 재무 분석가 등 사전 정의된 직무를 선택합니다.
+* **자동 키워드 적용:** 선택된 직무에 따라 필수 기술, 시장 동향, 관련 정책 키워드가 자동으로 설정됩니다.
+* **사용자 정의 키워드 관리:** 최대 5개의 맞춤 키워드를 추가하여 개인화된 브리핑 정확도를 향상시킬 수 있습니다.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### 2. Gemini AI 기반 분석 및 구조화
+* **전문가 페르소나 요약:** Gemini API에 해당 직무 전문가 페르소나를 부여하여, 기사 원문을 직무 관점에서 가장 중요한 **3문장 이내**로 압축 요약합니다.
+* **자동 태그 분류:** 기사 내용 분석을 통해 중요도 및 주제(`긴급`, `필수 열람`, `심화`, `시장 동향`, `정책 변경`)를 나타내는 태그를 구조화된 JSON 형태로 자동 생성합니다.
+
+### 3. 사용자 인터페이스 (UI/UX)
+* **정보 간소화:** 복잡한 헤드라인 대신 **AI가 분석한 요약 내용**을 우선적으로 표시하여 정보 탐색 효율성을 높입니다.
+* **원문 접근성:** AI 요약 아래에 원문 기사로 즉시 이동 가능한 링크를 제공합니다.
+
+***
+
+## 기술 스택 및 환경
+
+| 구분 | 기술 | 설명 |
+| :--- | :--- | :--- |
+| **프론트엔드 (FE)** | **React** (Hooks) | SPA(Single Page Application) 구조 구현 및 동적인 사용자 경험 제공 |
+| **스타일링** | **Tailwind CSS** | 유틸리티 기반 CSS 프레임워크를 활용한 신속하고 반응형적인 디자인 구축 |
+| **데이터 수집** | **네이버 검색 API** | 한국어 기반의 광범위하고 최신화된 뉴스 콘텐츠 확보 |
+| **데이터 분석/가공** | **Gemini API** | 자연어 처리 및 구조화된 JSON 데이터 생성 |
+| **아이콘 라이브러리** | **Lucide React** | 컴포넌트 기반의 고품질 아이콘 사용 |
+
+***
+
+## 개발 환경 설정
+
+### 1. 환경 변수 설정
+
+프로젝트 루트 디렉토리에 **`.env`** 파일을 생성하고 다음 API 키를 정확히 설정해야 합니다.
+
+```ini
+# React 프로젝트에서 환경 변수 로드를 위해 반드시 'REACT_APP_' 접두사를 사용해야 합니다.
+REACT_APP_GEMINI_API_KEY="[Gemini API 키 입력]"
+REACT_APP_NAVER_CLIENT_ID="[네이버 개발자 센터 Client ID 입력]"
+REACT_APP_NAVER_CLIENT_SECRET="[네이버 개발자 센터 Client Secret 입력]"
+```
+
+### 2. 의존성 설치 및 실행
+
+# 1. 의존성 설치
+npm install
+
+# 2. 애플리케이션 실행
+npm run dev 
+# 또는
+npm start
+
+### 프로젝트 파일 구조 (권장)
+
+```ini
+/professional-brief
+├── /src
+│   ├── /components        # 재사용 가능한 UI 컴포넌트 집합
+│   ├── /utils             # API 호출 로직 및 상수 정의
+│   │   ├── api.js         # fetchNewsData, summarizeAndTag 함수
+│   │   └── constants.js   # JOB_ROLES 및 페르소나 정의 상수
+│   ├── App.jsx            # 메인 애플리케이션 컴포넌트
+│   └── index.js           
+├── .env                   # 환경 변수 파일
+└── package.json
+```
+
