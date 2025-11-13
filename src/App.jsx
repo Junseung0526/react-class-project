@@ -18,7 +18,7 @@ function App() {
   const [newsItems, setNewsItems] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  
+
   // State for UI
   const [selectedNews, setSelectedNews] = useState(null);
   const [activeTab, setActiveTab] = useState('custom'); // 'custom', 'realtime', 'top'
@@ -45,7 +45,7 @@ function App() {
 
     setLoading(true);
     setError(null);
-    
+
     const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
     try {
@@ -86,7 +86,7 @@ function App() {
             )
           );
         }
-        
+
         if (!fromCache && i < initialItems.length - 1) {
           await delay(7000);
         }
