@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { XCircle } from 'lucide-react';
 import Tag from './Tag';
-import styles from './Input.module.css';
+import styles from '../styles/Input.module.css';
 
 const KeywordInput = ({ keywords, setKeywords, maxKeywords }) => {
   const [inputValue, setInputValue] = useState('');

@@ -1,4 +1,4 @@
-import styles from './NewsItemSkeleton.module.css';
+import styles from "../styles/NewsItemSkeleton.module.css";
 
 const Shimmer = () => (
   <div className={styles.shimmerWrapper}>

@@ -1,0 +1,41 @@
+.container {
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.categorySection {
+  background-color: #1f2937;
+  padding: 1.5rem;
+  border-radius: 0.5rem;
+}
+
+.categoryTitle {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #ffffff;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid #374151;
+  padding-bottom: 0.75rem;
+}
+
+.newsList {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 1rem;
+}
+
+/* On larger screens, show two columns */
+@media (min-width: 768px) {
+  .newsList {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.loading, .error {
+  text-align: center;
+  font-size: 1.125rem;
+  margin-top: 3rem;
+  color: #9ca3af;
+}

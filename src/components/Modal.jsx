@@ -1,13 +1,12 @@
 import { X } from 'lucide-react';
 import Tag from './Tag';
-import styles from './Modal.module.css';
+import styles from '../styles/Modal.module.css';
 
 const Modal = ({ item, onClose }) => {
   if (!item) {
     return null;
   }
 
-  // Decode HTML entities for all content
   const decodedTitle = item.title.replace(/&quot;/g, '"').replace(/&lt;/g, '<').replace(/&gt;/g, '>');
   const decodedDescription = item.description.replace(/&quot;/g, '"').replace(/&lt;/g, '<').replace(/&gt;/g, '>');
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './Tag.module.css';
+import styles from '../styles/Tag.module.css';
 
 const getTagStyle = (text) => {
   switch (text) {

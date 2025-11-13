@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import styles from './Input.module.css';
+import styles from '../styles/Input.module.css';
 
 const JobInput = ({ onJobSubmit, initialJob }) => {
   const [jobInputValue, setJobInputValue] = useState(initialJob || '');

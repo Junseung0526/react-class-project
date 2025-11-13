@@ -1,8 +1,7 @@
 import Tag from './Tag';
-import styles from './NewsItem.module.css';
+import styles from '../styles/NewsItem.module.css';
 
 const NewsItem = ({ item, onItemClick }) => {
-  // Naver API returns title and description with HTML entities
   const decodedTitle = item.title.replace(/&quot;/g, '"').replace(/&lt;/g, '<').replace(/&gt;/g, '>');
 
   return (
@@ -13,7 +12,7 @@ const NewsItem = ({ item, onItemClick }) => {
             href={item.originallink}
             target="_blank"
             rel="noopener noreferrer"
-            onClick={(e) => e.stopPropagation()} // Prevent card click from firing when link is clicked
+            onClick={(e) => e.stopPropagation()}
             dangerouslySetInnerHTML={{ __html: decodedTitle }}
           />
         </h2>
@@ -22,7 +21,7 @@ const NewsItem = ({ item, onItemClick }) => {
           target="_blank"
           rel="noopener noreferrer"
           className={styles.link}
-          onClick={(e) => e.stopPropagation()} // Prevent card click from firing when link is clicked
+          onClick={(e) => e.stopPropagation()}
         >
           원문 보기 &rarr;
         </a>
