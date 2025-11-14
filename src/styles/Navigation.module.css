@@ -2,7 +2,7 @@
   display: flex;
   justify-content: center;
   margin-bottom: 2rem;
-  border-bottom: 1px solid #374151;
+  border-bottom: 1px solid var(--color-border);
 }
 
 .tab {
@@ -10,27 +10,20 @@
   cursor: pointer;
   background: none;
   border: none;
-  color: #9ca3af;
+  border-bottom: 2px solid transparent;
+  color: var(--color-text-secondary);
   font-size: 1rem;
   font-weight: 600;
-  position: relative;
-  transition: color 0.3s;
+  transition: all 0.2s ease-in-out;
+  margin-bottom: -1px; /* Align with the nav border */
 }
 
 .tab:hover {
-  color: #ffffff;
+  color: var(--color-text-primary);
+  border-bottom-color: var(--color-border);
 }
 
 .tab.active {
-  color: #3b82f6;
-}
-
-.tab.active::after {
-  content: '';
-  position: absolute;
-  bottom: -1px;
-  left: 0;
-  right: 0;
-  height: 2px;
-  background-color: #3b82f6;
+  color: var(--color-text-primary);
+  border-bottom-color: var(--color-accent);
 }

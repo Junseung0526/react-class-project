@@ -3,7 +3,7 @@ import { fetchNewsData } from '../utils/api';
 import SimpleNewsItem from './SimpleNewsItem';
 import styles from '../styles/RealtimeNews.module.css';
 
-const RealtimeNewsView = () => {
+const RealtimeNewsView = ({ onScrap }) => {
   const [news, setNews] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -12,7 +12,6 @@ const RealtimeNewsView = () => {
     const getRealtimeNews = async () => {
       try {
         setLoading(true);
-        // Fetch news sorted by date for "real-time" effect
         const fetchedNews = await fetchNewsData('주요 뉴스', 'date');
         const uniqueNews = Array.from(new Map(fetchedNews.map(item => [item.originallink, item])).values());
         setNews(uniqueNews);
@@ -39,7 +38,7 @@ const RealtimeNewsView = () => {
     <div className={styles.container}>
       <div className={styles.newsList}>
         {news.map(item => (
-          <SimpleNewsItem key={item.link} item={item} />
+          <SimpleNewsItem key={item.link} item={item} onScrap={onScrap} />
         ))}
       </div>
     </div>

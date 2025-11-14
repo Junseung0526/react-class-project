@@ -5,7 +5,7 @@ import styles from '../styles/TopNews.module.css';
 
 const TOPICS = ['IT', '경제', '사회', '생활/문화'];
 
-const TopNewsView = () => {
+const TopNewsView = ({ onScrap }) => {
   const [newsByTopic, setNewsByTopic] = useState({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -21,7 +21,7 @@ const TopNewsView = () => {
         results.forEach((result, index) => {
           const topic = TOPICS[index];
           const uniqueNews = Array.from(new Map(result.map(item => [item.originallink, item])).values());
-          newsData[topic] = uniqueNews.slice(0, 5);
+          newsData[topic] = uniqueNews.slice(0, 6);
         });
         
         setNewsByTopic(newsData);
@@ -51,7 +51,7 @@ const TopNewsView = () => {
           <h2 className={styles.categoryTitle}>{topic}</h2>
           <div className={styles.newsList}>
             {newsByTopic[topic]?.map(item => (
-              <SimpleNewsItem key={item.link} item={item} />
+              <SimpleNewsItem key={item.link} item={item} onScrap={onScrap} />
             ))}
           </div>
         </section>

@@ -27,13 +27,13 @@ const KeywordInput = ({ keywords, setKeywords, maxKeywords }) => {
 
   return (
     <div className={styles.keywordInputContainer}>
-      <label htmlFor="keyword-input" className={styles.keywordLabel}>
+      <label htmlFor="keyword-input" className={styles.label}>
         뉴스를 필터링할 키워드를 추가하세요 (최대 {maxKeywords}개)
       </label>
       <input
         type="text"
         id="keyword-input"
-        className={styles.keywordInput}
+        className={styles.input}
         placeholder="키워드를 입력하고 Enter를 누르세요"
         value={inputValue}
         onChange={handleInputChange}

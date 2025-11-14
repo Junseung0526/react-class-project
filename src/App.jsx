@@ -3,10 +3,13 @@ import JobInput from './components/JobInput';
 import KeywordInput from './components/KeywordInput';
 import NewsItem from './components/NewsItem';
 import Modal from './components/Modal';
+import Footer from './components/Footer';
 import NewsItemSkeleton from './components/NewsItemSkeleton';
 import Navigation from './components/Navigation';
 import RealtimeNewsView from './components/RealtimeNewsView';
 import TopNewsView from './components/TopNewsView';
+import ScrappedNewsView from './components/ScrappedNewsView';
+import ThemeToggle from './components/ThemeToggle';
 import { DEFAULT_KEYWORDS, MAX_CUSTOM_KEYWORDS } from './utils/constants';
 import { fetchNewsData, summarizeAndTag } from './utils/api';
 import styles from './styles/App.module.css';
@@ -21,7 +24,34 @@ function App() {
 
   // State for UI
   const [selectedNews, setSelectedNews] = useState(null);
-  const [activeTab, setActiveTab] = useState('custom'); // 'custom', 'realtime', 'top'
+  const [activeTab, setActiveTab] = useState('custom'); // 'custom', 'realtime', 'top', 'scrapped'
+
+  // State for Scrapped News
+  const [scrappedNews, setScrappedNews] = useState([]);
+
+  useEffect(() => {
+    const savedNews = localStorage.getItem('scrapped_news');
+    if (savedNews) {
+      setScrappedNews(JSON.parse(savedNews));
+    }
+  }, []);
+
+  const handleScrap = (itemToScrap) => {
+    if (scrappedNews.some(item => item.originallink === itemToScrap.originallink)) {
+      alert('이미 스크랩한 기사입니다.');
+      return;
+    }
+    const updatedScrappedNews = [...scrappedNews, itemToScrap];
+    setScrappedNews(updatedScrappedNews);
+    localStorage.setItem('scrapped_news', JSON.stringify(updatedScrappedNews));
+    alert('기사를 스크랩했습니다.');
+  };
+
+  const handleRemoveScrap = (itemToRemove) => {
+    const updatedScrappedNews = scrappedNews.filter(item => item.originallink !== itemToRemove.originallink);
+    setScrappedNews(updatedScrappedNews);
+    localStorage.setItem('scrapped_news', JSON.stringify(updatedScrappedNews));
+  };
 
   const handleJobSubmit = useCallback((newJobTitle) => {
     setJobTitle(newJobTitle);
@@ -123,7 +153,7 @@ function App() {
                   item.isProcessing ? (
                     <NewsItemSkeleton key={item.link || index} />
                   ) : (
-                    <NewsItem key={item.link || index} item={item} onItemClick={openModal} />
+                    <NewsItem key={item.link || index} item={item} onItemClick={openModal} onScrap={handleScrap} />
                   )
                 )
               ) : (
@@ -135,30 +165,38 @@ function App() {
           </>
         );
       case 'realtime':
-        return <RealtimeNewsView />;
+        return <RealtimeNewsView onScrap={handleScrap} />;
       case 'top':
-        return <TopNewsView />;
+        return <TopNewsView onScrap={handleScrap} />;
+      case 'scrapped':
+        return <ScrappedNewsView items={scrappedNews} onRemove={handleRemoveScrap} />;
       default:
         return null;
     }
   };
 
   return (
-    <div className={styles.app}>
-      <header className={styles.header}>
-        <h1 className={styles.title}>AI 뉴스 브리핑</h1>
-        <p className={styles.subtitle}>
-          AI 맞춤 분석, 실시간 뉴스, 주요 토픽까지 한눈에.
-        </p>
-      </header>
+    <div>
+      <div className={styles.app}>
+        <header className={styles.header}>
+          <div className={styles.titleContainer}>
+            <h1 className={styles.title}>AI 뉴스 브리핑</h1>
+            <ThemeToggle />
+          </div>
+          <p className={styles.subtitle}>
+            AI 맞춤 분석, 실시간 뉴스, 주요 토픽까지 한눈에
+          </p>
+        </header>
 
-      <Navigation activeTab={activeTab} setActiveTab={setActiveTab} />
+        <Navigation activeTab={activeTab} setActiveTab={setActiveTab} />
 
-      <main className={styles.main}>
-        {renderContent()}
-      </main>
+        <main className={styles.main}>
+          {renderContent()}
+        </main>
 
-      <Modal item={selectedNews} onClose={closeModal} />
+        <Modal item={selectedNews} onClose={closeModal} />
+      </div>
+      <Footer />
     </div>
   );
 }
