@@ -179,9 +179,11 @@ function App() {
     <div>
       <div className={styles.app}>
         <header className={styles.header}>
+            <div className={styles.themeToggleContainer}>
+              <ThemeToggle />
+            </div>
           <div className={styles.titleContainer}>
             <h1 className={styles.title}>AI 뉴스 브리핑</h1>
-            <ThemeToggle />
           </div>
           <p className={styles.subtitle}>
             AI 맞춤 분석, 실시간 뉴스, 주요 토픽까지 한눈에

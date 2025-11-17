@@ -1,4 +1,4 @@
-import styles from '../styles/SimpleNewsItem.module.css';
+  import styles from '../styles/SimpleNewsItem.module.css';
 
 const SimpleNewsItem = ({ item, onScrap, onRemove }) => {
   const decodedTitle = item.title.replace(/&quot;/g, '"').replace(/&lt;/g, '<').replace(/&gt;/g, '>');

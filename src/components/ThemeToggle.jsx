@@ -4,7 +4,6 @@ import styles from '../styles/ThemeToggle.module.css';
 const ThemeToggle = () => {
   const [theme, setTheme] = useState(() => {
     const savedTheme = localStorage.getItem('theme');
-    // Respect user's system preference if no theme is saved
     const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
     return savedTheme || (prefersDark ? 'dark' : 'light');
   });
@@ -20,7 +19,9 @@ const ThemeToggle = () => {
 
   return (
     <button onClick={toggleTheme} className={styles.toggleButton} aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}>
-      {theme === 'light' ? '🌙' : '☀️'}
+      <span key={theme} className={styles.icon}>
+        {theme === 'light' ? '🌙' : '☀️'}
+      </span>
     </button>
   );
 };
