@@ -11,6 +11,11 @@ const ThemeToggle = () => {
   useEffect(() => {
     document.body.setAttribute('data-theme', theme);
     localStorage.setItem('theme', theme);
+    
+    const favicon = document.getElementById('favicon');
+    if (favicon) {
+      favicon.href = theme === 'light' ? '/favicon-light.svg' : '/favicon-dark.svg';
+    }
   }, [theme]);
 
   const toggleTheme = () => {
