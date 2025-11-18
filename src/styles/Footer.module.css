@@ -4,5 +4,5 @@
   padding: 20px;
   text-align: center;
   border-top: 1px solid var(--color-border);
-  margin-top: auto; /* Use auto margin to push to the bottom of the flex container */
+  margin-top: auto;
 }
