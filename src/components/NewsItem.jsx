@@ -14,6 +14,11 @@ const NewsItem = ({ item, onItemClick, onScrap }) => {
     return `${year}.${month}.${day} ${hours}:${minutes}`;
   };
 
+  const summaryText = item.summary || '';
+  const truncatedSummary = summaryText.length > 100
+    ? `${summaryText.substring(0, 100)}...`
+    : summaryText;
+
   return (
     <div className={styles.card} onClick={() => onItemClick(item)}>
       <div className={styles.header}>
@@ -39,9 +44,9 @@ const NewsItem = ({ item, onItemClick, onScrap }) => {
 
       <span className={styles.date}>{formatDate(item.pubDate)}</span>
 
-      {item.summary && (
+      {summaryText && (
         <p className={styles.summary}>
-          {item.summary}
+          {truncatedSummary}
         </p>
       )}
 
