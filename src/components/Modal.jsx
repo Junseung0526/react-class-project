@@ -2,7 +2,7 @@ import { X, Link, Twitter } from 'lucide-react';
 import Tag from './Tag';
 import styles from '../styles/Modal.module.css';
 
-const Modal = ({ item, onClose, keywords = [] }) => {
+export default function Modal({ item, onClose, keywords = [] }) {
   if (!item) {
     return null;
   }
@@ -16,7 +16,7 @@ const Modal = ({ item, onClose, keywords = [] }) => {
   };
 
   const decodedTitle = item.title.replace(/&quot;/g, '"').replace(/&lt;/g, '<').replace(/&gt;/g, '>');
-  
+
   const highlightedTitle = highlightKeywords(decodedTitle, keywords);
   // Use the pre-cleaned item.summary
   const highlightedDescription = highlightKeywords(item.summary, keywords);
@@ -50,7 +50,7 @@ const Modal = ({ item, onClose, keywords = [] }) => {
         <button className={styles.closeButton} onClick={onClose}>
           <X size={24} />
         </button>
-        
+
         <h2 className={styles.title} dangerouslySetInnerHTML={{ __html: highlightedTitle }} />
         <div className={styles.metaInfo}>
           <span className={styles.press}>{item.press}</span>
@@ -87,5 +87,3 @@ const Modal = ({ item, onClose, keywords = [] }) => {
     </div>
   );
 };
-
-export default Modal;

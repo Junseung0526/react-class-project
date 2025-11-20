@@ -5,7 +5,7 @@ import styles from '../styles/TopNews.module.css';
 
 const TOPICS = ['IT', '경제', '사회', '생활/문화'];
 
-const TopNewsView = ({ onScrap }) => {
+export default function TopNewsView({ onScrap }) {
   const [newsByTopic, setNewsByTopic] = useState({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -23,7 +23,7 @@ const TopNewsView = ({ onScrap }) => {
           const uniqueNews = Array.from(new Map(result.map(item => [item.originallink, item])).values());
           newsData[topic] = uniqueNews.slice(0, 6);
         });
-        
+
         setNewsByTopic(newsData);
       } catch (err) {
         setError('주요 토픽 뉴스를 불러오는 데 실패했습니다.');
@@ -59,5 +59,3 @@ const TopNewsView = ({ onScrap }) => {
     </div>
   );
 };
-
-export default TopNewsView;

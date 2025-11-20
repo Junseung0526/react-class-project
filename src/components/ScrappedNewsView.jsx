@@ -1,7 +1,7 @@
 import SimpleNewsItem from './SimpleNewsItem';
 import styles from '../styles/RealtimeNews.module.css'; // Can reuse styles
 
-const ScrappedNewsView = ({ items, onRemove }) => {
+export default function ScrappedNewsView({ items, onRemove }) {
   if (!items || items.length === 0) {
     return <div className={styles.noResults}>스크랩한 기사가 없습니다.</div>;
   }
@@ -21,5 +21,3 @@ const ScrappedNewsView = ({ items, onRemove }) => {
     </div>
   );
 };
-
-export default ScrappedNewsView;

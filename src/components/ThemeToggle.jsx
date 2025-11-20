@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import styles from '../styles/ThemeToggle.module.css';
 
-const ThemeToggle = () => {
+export default function ThemeToggle() {
   const [theme, setTheme] = useState(() => {
     const savedTheme = localStorage.getItem('theme');
     const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
@@ -11,7 +11,7 @@ const ThemeToggle = () => {
   useEffect(() => {
     document.body.setAttribute('data-theme', theme);
     localStorage.setItem('theme', theme);
-    
+
     const favicon = document.getElementById('favicon');
     if (favicon) {
       favicon.href = theme === 'light' ? '/favicon-light.svg' : '/favicon-dark.svg';
@@ -30,5 +30,3 @@ const ThemeToggle = () => {
     </button>
   );
 };
-
-export default ThemeToggle;

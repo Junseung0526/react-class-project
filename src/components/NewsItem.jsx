@@ -1,7 +1,7 @@
 import Tag from './Tag';
 import styles from '../styles/NewsItem.module.css';
 
-const NewsItem = ({ item, onItemClick, onScrap }) => {
+export default function NewsItem({ item, onItemClick, onScrap }) {
   const decodedTitle = item.title.replace(/&quot;/g, '"').replace(/&lt;/g, '<').replace(/&gt;/g, '>');
 
   const formatDate = (dateString) => {
@@ -69,5 +69,3 @@ const NewsItem = ({ item, onItemClick, onScrap }) => {
     </div>
   );
 };
-
-export default NewsItem;

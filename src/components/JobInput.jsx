@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import styles from '../styles/Input.module.css';
 
-const JobInput = ({ onJobSubmit, initialJob }) => {
+export default function JobInput({ onJobSubmit, initialJob }) {
   const [jobInputValue, setJobInputValue] = useState(initialJob || '');
 
   const handleSubmit = (e) => {
@@ -27,5 +27,3 @@ const JobInput = ({ onJobSubmit, initialJob }) => {
     </form>
   );
 };
-
-export default JobInput;
