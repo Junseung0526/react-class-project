@@ -6,7 +6,7 @@ const Shimmer = () => (
   </div>
 );
 
-const NewsItemSkeleton = () => {
+export default function NewsItemSkeleton() {
   return (
     <div className={styles.skeletonCard}>
       <div className={`${styles.line} ${styles.shimmerWrapper}`}>
@@ -29,5 +29,3 @@ const NewsItemSkeleton = () => {
     </div>
   );
 };
-
-export default NewsItemSkeleton;

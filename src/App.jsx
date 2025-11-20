@@ -11,7 +11,7 @@ import TopNewsView from './components/TopNewsView';
 import ScrappedNewsView from './components/ScrappedNewsView';
 import ThemeToggle from './components/ThemeToggle';
 import { DEFAULT_KEYWORDS, MAX_CUSTOM_KEYWORDS } from './utils/constants';
-import { fetchNewsData, summarizeAndTag } from './utils/api';
+import { fetchNewsData } from './utils/api';
 import styles from './styles/App.module.css';
 
 function App() {
@@ -21,10 +21,16 @@ function App() {
   const [newsItems, setNewsItems] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [sortOrder, setSortOrder] = useState('sim');
+
+  // Pagination states
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(10);
+  const [hasMoreNews, setHasMoreNews] = useState(true);
 
   // State for UI
   const [selectedNews, setSelectedNews] = useState(null);
-  const [activeTab, setActiveTab] = useState('custom'); // 'custom', 'realtime', 'top', 'scrapped'
+  const [activeTab, setActiveTab] = useState('custom');
 
   // State for Scrapped News
   const [scrappedNews, setScrappedNews] = useState([]);
@@ -35,6 +41,55 @@ function App() {
       setScrappedNews(JSON.parse(savedNews));
     }
   }, []);
+
+  // Effect to reset news when search/sort criteria change
+  useEffect(() => {
+    setNewsItems([]);
+    setCurrentPage(1);
+    setHasMoreNews(true);
+  }, [jobTitle, sortOrder]);
+
+  // Effect to fetch news when page or criteria change
+  useEffect(() => {
+    if (!jobTitle || activeTab !== 'custom') {
+      setNewsItems([]);
+      return;
+    }
+
+    const fetchNews = async () => {
+      setLoading(true);
+      setError(null);
+
+      try {
+        const query = [jobTitle, ...customKeywords, ...DEFAULT_KEYWORDS].join(' ');
+        const start = (currentPage - 1) * itemsPerPage + 1;
+        const fetchedNews = await fetchNewsData(query, sortOrder, start, itemsPerPage);
+
+        const processedItems = fetchedNews.map(item => ({
+          ...item,
+          summary: item.description.replace(/&quot;/g, '"').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/<b>/g, '').replace(/<\/b>/g, ''),
+          tags: [],
+          isProcessing: false
+        }));
+
+        setNewsItems(prevItems => {
+          const allItems = currentPage === 1 ? processedItems : [...prevItems, ...processedItems];
+          const uniqueItems = Array.from(new Map(allItems.map(item => [item.originallink, item])).values());
+          return uniqueItems;
+        });
+
+        setHasMoreNews(processedItems.length === itemsPerPage);
+      } catch (err) {
+        setError("뉴스 데이터를 불러오거나 처리하는 데 실패했습니다.");
+        console.error("App.jsx fetchNews error:", err);
+        setHasMoreNews(false);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchNews();
+  }, [jobTitle, customKeywords, sortOrder, currentPage, activeTab, itemsPerPage]);
 
   const handleScrap = (itemToScrap) => {
     if (scrappedNews.some(item => item.originallink === itemToScrap.originallink)) {
@@ -67,72 +122,11 @@ function App() {
     setSelectedNews(null);
   };
 
-  const fetchAndProcessNews = useCallback(async () => {
-    if (!jobTitle || activeTab !== 'custom') {
-      setNewsItems([]);
-      return;
+  const handleLoadMore = () => {
+    if (!loading) {
+      setCurrentPage(prevPage => prevPage + 1);
     }
-
-    setLoading(true);
-    setError(null);
-
-    const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
-
-    try {
-      const allKeywords = [jobTitle, ...customKeywords, ...DEFAULT_KEYWORDS];
-      const uniqueKeywords = [...new Set(allKeywords)];
-      const query = uniqueKeywords.join(' ');
-
-      const fetchedNews = await fetchNewsData(query);
-      const uniqueNews = Array.from(new Map(fetchedNews.map(item => [item.originallink, item])).values());
-      const persona = `당신은 ${jobTitle} 전문가입니다. 기사를 ${jobTitle}의 관점에서 분석하고 요약해주세요.`;
-
-      const initialItems = uniqueNews.map(item => ({ ...item, isProcessing: true, summary: '', tags: [] }));
-      setNewsItems(initialItems);
-      setLoading(false);
-
-      for (let i = 0; i < initialItems.length; i++) {
-        const item = initialItems[i];
-        let fromCache = false;
-        try {
-          const result = await summarizeAndTag(item, persona);
-          const { summary, tags } = result;
-          fromCache = result.fromCache;
-
-          setNewsItems(prevItems =>
-            prevItems.map(prevItem =>
-              prevItem.link === item.link
-                ? { ...prevItem, summary, tags, isProcessing: false }
-                : prevItem
-            )
-          );
-        } catch (aiError) {
-          console.error("Error processing news with AI:", aiError);
-          setNewsItems(prevItems =>
-            prevItems.map(prevItem =>
-              prevItem.link === item.link
-                ? { ...prevItem, summary: "AI 요약 실패", tags: [], isProcessing: false }
-                : prevItem
-            )
-          );
-        }
-
-        if (!fromCache && i < initialItems.length - 1) {
-          await delay(7000);
-        }
-      }
-    } catch (err) {
-      setError("뉴스 데이터를 불러오거나 처리하는 데 실패했습니다.");
-      console.error("App.jsx fetchAndProcessNews error:", err);
-      setLoading(false);
-    }
-  }, [jobTitle, customKeywords, activeTab]);
-
-  useEffect(() => {
-    if (activeTab === 'custom') {
-      fetchAndProcessNews();
-    }
-  }, [fetchAndProcessNews, activeTab]);
+  };
 
   const renderContent = () => {
     switch (activeTab) {
@@ -145,23 +139,49 @@ function App() {
                 <KeywordInput keywords={customKeywords} setKeywords={setCustomKeywords} maxKeywords={MAX_CUSTOM_KEYWORDS} />
               )}
             </div>
-            {loading && <div className={styles.loading}>뉴스 목록을 불러오는 중입니다...</div>}
+
+            {jobTitle && (
+              <div className={styles.sortContainer}>
+                <button
+                  className={`${styles.sortButton} ${sortOrder === 'sim' ? styles.activeSort : ''}`}
+                  onClick={() => setSortOrder('sim')}
+                >
+                  관련도순
+                </button>
+                <button
+                  className={`${styles.sortButton} ${sortOrder === 'date' ? styles.activeSort : ''}`}
+                  onClick={() => setSortOrder('date')}
+                >
+                  날짜순
+                </button>
+              </div>
+            )}
+
+            {loading && newsItems.length === 0 && <div className={styles.loading}>뉴스 목록을 불러오는 중입니다...</div>}
             {error && <div className={styles.error}>{error}</div>}
             <div className={styles.newsGrid}>
-              {newsItems.length > 0 ? (
-                newsItems.map((item, index) =>
-                  item.isProcessing ? (
-                    <NewsItemSkeleton key={item.link || index} />
-                  ) : (
-                    <NewsItem key={item.link || index} item={item} onItemClick={openModal} onScrap={handleScrap} />
-                  )
-                )
-              ) : (
-                !loading && !error && jobTitle && (
-                  <div className={styles.noResults}>입력된 직무와 키워드에 해당하는 뉴스가 없습니다.</div>
+              {newsItems.map((item, index) =>
+                item.isProcessing ? (
+                  <NewsItemSkeleton key={item.link || index} />
+                ) : (
+                  <NewsItem key={item.originallink || index} item={item} onItemClick={openModal} onScrap={handleScrap} />
                 )
               )}
             </div>
+            {hasMoreNews && !loading && newsItems.length > 0 && (
+              <div className={styles.loadMoreContainer}>
+                <button onClick={handleLoadMore} className={styles.loadMoreButton} disabled={loading}>
+                  더 많은 뉴스 보기
+                </button>
+              </div>
+            )}
+            {loading && newsItems.length > 0 && <div className={styles.loading}>더 많은 뉴스 불러오는 중...</div>}
+            {!loading && !hasMoreNews && newsItems.length > 0 && (
+              <div className={styles.noMoreNews}>더 이상 뉴스가 없습니다.</div>
+            )}
+            {!loading && newsItems.length === 0 && jobTitle && !error && (
+              <div className={styles.noResults}>입력된 직무와 키워드에 해당하는 뉴스가 없습니다.</div>
+            )}
           </>
         );
       case 'realtime':
@@ -176,15 +196,17 @@ function App() {
   };
 
   return (
-    <div>
+    <div className={styles.appContainer}>
       <div className={styles.app}>
         <header className={styles.header}>
+            <div className={styles.themeToggleContainer}>
+              <ThemeToggle />
+            </div>
           <div className={styles.titleContainer}>
-            <h1 className={styles.title}>AI 뉴스 브리핑</h1>
-            <ThemeToggle />
+            <h1 className={styles.title}>뉴스 브리핑</h1>
           </div>
           <p className={styles.subtitle}>
-            AI 맞춤 분석, 실시간 뉴스, 주요 토픽까지 한눈에
+            맞춤 분석, 실시간 뉴스, 주요 토픽까지 한눈에
           </p>
         </header>
 
@@ -194,7 +216,7 @@ function App() {
           {renderContent()}
         </main>
 
-        <Modal item={selectedNews} onClose={closeModal} />
+        <Modal item={selectedNews} onClose={closeModal} keywords={[jobTitle, ...customKeywords].filter(Boolean)} />
       </div>
       <Footer />
     </div>

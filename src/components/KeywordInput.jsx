@@ -3,7 +3,7 @@ import { XCircle } from 'lucide-react';
 import Tag from './Tag';
 import styles from '../styles/Input.module.css';
 
-const KeywordInput = ({ keywords, setKeywords, maxKeywords }) => {
+export default function KeywordInput({ keywords, setKeywords, maxKeywords }) {
   const [inputValue, setInputValue] = useState('');
 
   const handleInputChange = (e) => {
@@ -60,5 +60,3 @@ const KeywordInput = ({ keywords, setKeywords, maxKeywords }) => {
     </div>
   );
 };
-
-export default KeywordInput;

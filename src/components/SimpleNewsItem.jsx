@@ -1,6 +1,6 @@
 import styles from '../styles/SimpleNewsItem.module.css';
 
-const SimpleNewsItem = ({ item, onScrap, onRemove }) => {
+export default function SimpleNewsItem({ item, onScrap, onRemove }) {
   const decodedTitle = item.title.replace(/&quot;/g, '"').replace(/&lt;/g, '<').replace(/&gt;/g, '>');
 
   const formatDate = (dateString) => {
@@ -36,5 +36,3 @@ const SimpleNewsItem = ({ item, onScrap, onRemove }) => {
     </div>
   );
 };
-
-export default SimpleNewsItem;

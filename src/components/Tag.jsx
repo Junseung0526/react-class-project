@@ -21,7 +21,7 @@ const getTagStyle = (text) => {
   }
 };
 
-const Tag = ({ text }) => {
+export default function Tag({ text }) {
   const styleClass = getTagStyle(text);
 
   return (
@@ -30,5 +30,3 @@ const Tag = ({ text }) => {
     </span>
   );
 };
-
-export default Tag;

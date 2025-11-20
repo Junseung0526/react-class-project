@@ -1,8 +1,8 @@
 import styles from '../styles/Navigation.module.css';
 
-const Navigation = ({ activeTab, setActiveTab }) => {
+export default function Navigation({ activeTab, setActiveTab }) {
   const tabs = [
-    { id: 'custom', label: 'AI 맞춤 뉴스' },
+    { id: 'custom', label: '맞춤 뉴스' },
     { id: 'realtime', label: '실시간 뉴스' },
     { id: 'top', label: '주요 토픽 뉴스' },
     { id: 'scrapped', label: '스크랩 목록' },
@@ -22,5 +22,3 @@ const Navigation = ({ activeTab, setActiveTab }) => {
     </nav>
   );
 };
-
-export default Navigation;

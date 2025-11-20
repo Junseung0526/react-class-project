@@ -1,7 +1,7 @@
 import Tag from './Tag';
 import styles from '../styles/NewsItem.module.css';
 
-const NewsItem = ({ item, onItemClick, onScrap }) => {
+export default function NewsItem({ item, onItemClick, onScrap }) {
   const decodedTitle = item.title.replace(/&quot;/g, '"').replace(/&lt;/g, '<').replace(/&gt;/g, '>');
 
   const formatDate = (dateString) => {
@@ -13,6 +13,11 @@ const NewsItem = ({ item, onItemClick, onScrap }) => {
     const minutes = String(date.getMinutes()).padStart(2, '0');
     return `${year}.${month}.${day} ${hours}:${minutes}`;
   };
+
+  const summaryText = item.summary || '';
+  const truncatedSummary = summaryText.length > 100
+    ? `${summaryText.substring(0, 100)}...`
+    : summaryText;
 
   return (
     <div className={styles.card} onClick={() => onItemClick(item)}>
@@ -39,9 +44,9 @@ const NewsItem = ({ item, onItemClick, onScrap }) => {
 
       <span className={styles.date}>{formatDate(item.pubDate)}</span>
 
-      {item.summary && (
+      {summaryText && (
         <p className={styles.summary}>
-          {item.summary}
+          {truncatedSummary}
         </p>
       )}
 
@@ -64,5 +69,3 @@ const NewsItem = ({ item, onItemClick, onScrap }) => {
     </div>
   );
 };
-
-export default NewsItem;

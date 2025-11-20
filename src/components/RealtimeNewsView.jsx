@@ -3,7 +3,7 @@ import { fetchNewsData } from '../utils/api';
 import SimpleNewsItem from './SimpleNewsItem';
 import styles from '../styles/RealtimeNews.module.css';
 
-const RealtimeNewsView = ({ onScrap }) => {
+export default function RealtimeNewsView({ onScrap }) {
   const [news, setNews] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -44,5 +44,3 @@ const RealtimeNewsView = ({ onScrap }) => {
     </div>
   );
 };
-
-export default RealtimeNewsView;
