@@ -4,7 +4,6 @@ import KeywordInput from './components/KeywordInput';
 import NewsItem from './components/NewsItem';
 import Modal from './components/Modal';
 import Footer from './components/Footer';
-import NewsItemSkeleton from './components/NewsItemSkeleton';
 import Navigation from './components/Navigation';
 import RealtimeNewsView from './components/RealtimeNewsView';
 import TopNewsView from './components/TopNewsView';
@@ -68,8 +67,7 @@ function App() {
         const processedItems = fetchedNews.map(item => ({
           ...item,
           summary: item.description.replace(/&quot;/g, '"').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/<b>/g, '').replace(/<\/b>/g, ''),
-          tags: [],
-          isProcessing: false
+          tags: []
         }));
 
         setNewsItems(prevItems => {
@@ -114,7 +112,6 @@ function App() {
   }, []);
 
   const openModal = (item) => {
-    if (item.isProcessing) return;
     setSelectedNews(item);
   };
 
@@ -161,11 +158,7 @@ function App() {
             {error && <div className={styles.error}>{error}</div>}
             <div className={styles.newsGrid}>
               {newsItems.map((item, index) =>
-                item.isProcessing ? (
-                  <NewsItemSkeleton key={item.link || index} />
-                ) : (
-                  <NewsItem key={item.originallink || index} item={item} onItemClick={openModal} onScrap={handleScrap} />
-                )
+                <NewsItem key={item.originallink || index} item={item} onItemClick={openModal} onScrap={handleScrap} />
               )}
             </div>
             {hasMoreNews && !loading && newsItems.length > 0 && (
