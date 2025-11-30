@@ -68,7 +68,7 @@
   margin-top: 1rem;
 }
 
-.metaInfo {
+.meta {
   display: flex;
   justify-content: space-between;
   font-size: 0.875rem;
@@ -84,12 +84,12 @@
   /* No specific styles needed for now, inherits from metaInfo */
 }
 
-.originalLinkContainer {
+.linkWrapper {
   margin-top: 2rem;
   text-align: center;
 }
 
-.originalLinkButton {
+.linkButton {
   display: inline-block;
   background-color: var(--color-accent);
   color: var(--color-button-text);
@@ -100,7 +100,7 @@
   transition: background-color 0.2s ease-in-out;
 }
 
-.originalLinkButton:hover {
+.linkButton:hover {
   background-color: var(--color-accent-hover);
 }
 

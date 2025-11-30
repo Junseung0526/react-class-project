@@ -57,7 +57,7 @@ export default function NewsItem({ item, onItemClick, onScrap }) {
           ))}
         </div>
         <button
-          className={styles.scrapButton}
+          className={styles.scrapBtn}
           onClick={(e) => {
             e.stopPropagation();
             onScrap(item);

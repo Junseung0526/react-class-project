@@ -52,7 +52,7 @@ export default function Modal({ item, onClose, keywords = [] }) {
         </button>
 
         <h2 className={styles.title} dangerouslySetInnerHTML={{ __html: highlightedTitle }} />
-        <div className={styles.metaInfo}>
+        <div className={styles.meta}>
           <span className={styles.press}>{item.press}</span>
           <span className={styles.date}>{pubDate}</span>
         </div>
@@ -78,7 +78,7 @@ export default function Modal({ item, onClose, keywords = [] }) {
             </button>
           </div>
           {item.originallink && (
-            <a href={item.originallink} target="_blank" rel="noopener noreferrer" className={styles.originalLinkButton}>
+            <a href={item.originallink} target="_blank" rel="noopener noreferrer" className={styles.linkButton}>
               원본 기사 보기
             </a>
           )}

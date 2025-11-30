@@ -16,16 +16,16 @@
   flex-direction: column;
   flex-grow: 1;
   margin-right: 1rem;
-  min-width: 0; /* Allow content to shrink */
+  min-width: 0;
 }
 
 .title {
   font-size: 1rem;
   color: var(--color-text-primary);
   text-decoration: none;
-  white-space: nowrap; /* Prevent title from wrapping */
-  overflow: hidden; /* Hide overflow */
-  text-overflow: ellipsis; /* Show ellipsis for truncated text */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .date {
@@ -39,7 +39,7 @@
   color: var(--color-accent);
 }
 
-.scrapButton {
+.scrapBtn {
   background-color: transparent;
   border: 1px solid var(--color-accent);
   color: var(--color-accent);
@@ -48,15 +48,15 @@
   cursor: pointer;
   font-weight: 600;
   transition: all 0.2s ease-in-out;
-  flex-shrink: 0; /* Prevent button from shrinking */
+  flex-shrink: 0;
 }
 
-.scrapButton:hover {
+.scrapBtn:hover {
   background-color: var(--color-accent);
   color: #fff;
 }
 
-.removeButton {
+.removeBtn {
   background-color: transparent;
   border: 1px solid var(--color-danger);
   color: var(--color-danger);
@@ -65,10 +65,10 @@
   cursor: pointer;
   font-weight: 600;
   transition: all 0.2s ease-in-out;
-  flex-shrink: 0; /* Prevent button from shrinking */
+  flex-shrink: 0;
 }
 
-.removeButton:hover {
+.removeBtn:hover {
   background-color: var(--color-danger);
   color: #fff;
 }

@@ -37,22 +37,22 @@
   opacity: 0.6;
 }
 
-.keywordInputContainer {
+.keywordInput {
   margin-top: 1.5rem;
 }
 
-.tagContainer {
+.tags {
   margin-top: 1rem;
   display: flex;
   flex-wrap: wrap;
   gap: 0.75rem;
 }
 
-.tagWrapper {
+.tag {
   position: relative;
 }
 
-.removeButton {
+.removeTagBtn {
   position: absolute;
   top: -0.5rem;
   right: -0.5rem;
@@ -69,12 +69,12 @@
   transition: all 0.2s;
 }
 
-.removeButton:hover {
+.removeTagBtn:hover {
   background-color: var(--color-error);
   color: var(--color-text-primary);
 }
 
-.errorText {
+.errorMessage {
   font-size: 0.875rem;
   color: var(--color-warning);
   margin-top: 0.75rem;

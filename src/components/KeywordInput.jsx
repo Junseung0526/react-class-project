@@ -26,7 +26,7 @@ export default function KeywordInput({ keywords, setKeywords, maxKeywords }) {
   };
 
   return (
-    <div className={styles.keywordInputContainer}>
+    <div className={styles.keywordInput}>
       <label htmlFor="keyword-input" className={styles.label}>
         뉴스를 필터링할 키워드를 추가하세요 (최대 {maxKeywords}개)
       </label>
@@ -40,13 +40,13 @@ export default function KeywordInput({ keywords, setKeywords, maxKeywords }) {
         onKeyDown={handleAddKeyword}
         disabled={keywords.length >= maxKeywords}
       />
-      <div className={styles.tagContainer}>
+      <div className={styles.tags}>
         {keywords.map((keyword) => (
-          <div key={keyword} className={styles.tagWrapper}>
+          <div key={keyword} className={styles.tag}>
             <span>{keyword}</span>
             <button
               onClick={() => handleRemoveKeyword(keyword)}
-              className={styles.removeButton}
+              className={styles.removeTagBtn}
               aria-label={`Remove ${keyword}`}
             >
               <XCircle size={14} />
@@ -55,7 +55,7 @@ export default function KeywordInput({ keywords, setKeywords, maxKeywords }) {
         ))}
       </div>
       {keywords.length >= maxKeywords && (
-        <p className={styles.errorText}>최대 키워드 개수에 도달했습니다.</p>
+        <p className={styles.errorMessage}>최대 키워드 개수에 도달했습니다.</p>
       )}
     </div>
   );
