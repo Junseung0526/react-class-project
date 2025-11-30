@@ -1,5 +1,5 @@
 import { X, Link, Twitter } from 'lucide-react';
-import Tag from './Tag';
+
 import styles from '../styles/Modal.module.css';
 
 export default function Modal({ item, onClose, keywords = [] }) {
@@ -59,7 +59,7 @@ export default function Modal({ item, onClose, keywords = [] }) {
 
         <div className={styles.tags}>
           {item.tags && item.tags.map((tag, index) => (
-            <Tag key={index} text={tag} />
+            <span key={index} className={styles.tag}>{tag}</span>
           ))}
         </div>
 
@@ -74,7 +74,7 @@ export default function Modal({ item, onClose, keywords = [] }) {
               <Link size={20} />
             </button>
             <button onClick={handleShareTwitter} className={styles.shareButton} title="트위터에 공유">
-              <Twitter size={20} />
+              <X size={20} />
             </button>
           </div>
           {item.originallink && (

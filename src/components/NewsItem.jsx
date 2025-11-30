@@ -1,4 +1,4 @@
-import Tag from './Tag';
+
 import styles from '../styles/NewsItem.module.css';
 
 export default function NewsItem({ item, onItemClick, onScrap }) {
@@ -53,7 +53,7 @@ export default function NewsItem({ item, onItemClick, onScrap }) {
       <div className={styles.footer}>
         <div className={styles.tags}>
           {item.tags && item.tags.map((tag, index) => (
-            <Tag key={index} text={tag} />
+            <span key={index} className={styles.tag}>{tag}</span>
           ))}
         </div>
         <button

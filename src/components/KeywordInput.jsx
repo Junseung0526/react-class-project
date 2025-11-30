@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { XCircle } from 'lucide-react';
-import Tag from './Tag';
+
 import styles from '../styles/Input.module.css';
 
 export default function KeywordInput({ keywords, setKeywords, maxKeywords }) {
@@ -43,7 +43,7 @@ export default function KeywordInput({ keywords, setKeywords, maxKeywords }) {
       <div className={styles.tagContainer}>
         {keywords.map((keyword) => (
           <div key={keyword} className={styles.tagWrapper}>
-            <Tag text={keyword} />
+            <span>{keyword}</span>
             <button
               onClick={() => handleRemoveKeyword(keyword)}
               className={styles.removeButton}
