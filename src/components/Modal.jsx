@@ -1,5 +1,5 @@
 import { X, Link, Twitter } from 'lucide-react';
-import Tag from './Tag';
+
 import styles from '../styles/Modal.module.css';
 
 export default function Modal({ item, onClose, keywords = [] }) {
@@ -52,14 +52,14 @@ export default function Modal({ item, onClose, keywords = [] }) {
         </button>
 
         <h2 className={styles.title} dangerouslySetInnerHTML={{ __html: highlightedTitle }} />
-        <div className={styles.metaInfo}>
+        <div className={styles.meta}>
           <span className={styles.press}>{item.press}</span>
           <span className={styles.date}>{pubDate}</span>
         </div>
 
         <div className={styles.tags}>
           {item.tags && item.tags.map((tag, index) => (
-            <Tag key={index} text={tag} />
+            <span key={index} className={styles.tag}>{tag}</span>
           ))}
         </div>
 
@@ -74,11 +74,11 @@ export default function Modal({ item, onClose, keywords = [] }) {
               <Link size={20} />
             </button>
             <button onClick={handleShareTwitter} className={styles.shareButton} title="트위터에 공유">
-              <Twitter size={20} />
+              <X size={20} />
             </button>
           </div>
           {item.originallink && (
-            <a href={item.originallink} target="_blank" rel="noopener noreferrer" className={styles.originalLinkButton}>
+            <a href={item.originallink} target="_blank" rel="noopener noreferrer" className={styles.linkButton}>
               원본 기사 보기
             </a>
           )}

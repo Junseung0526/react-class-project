@@ -47,7 +47,7 @@ export default function TopNewsView({ onScrap }) {
   return (
     <div className={styles.container}>
       {TOPICS.map(topic => (
-        <section key={topic} className={styles.categorySection}>
+        <section key={topic} className={styles.category}>
           <h2 className={styles.categoryTitle}>{topic}</h2>
           <div className={styles.newsList}>
             {newsByTopic[topic]?.map(item => (

@@ -24,12 +24,12 @@ export default function SimpleNewsItem({ item, onScrap, onRemove }) {
         <span className={styles.date}>{formatDate(item.pubDate)}</span>
       </div>
       {onScrap && (
-        <button onClick={() => onScrap(item)} className={styles.scrapButton}>
+        <button onClick={() => onScrap(item)} className={styles.scrapBtn}>
           스크랩
         </button>
       )}
       {onRemove && (
-        <button onClick={() => onRemove(item)} className={styles.removeButton}>
+        <button onClick={() => onRemove(item)} className={styles.removeBtn}>
           삭제
         </button>
       )}

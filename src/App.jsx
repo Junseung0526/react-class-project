@@ -4,7 +4,6 @@ import KeywordInput from './components/KeywordInput';
 import NewsItem from './components/NewsItem';
 import Modal from './components/Modal';
 import Footer from './components/Footer';
-import NewsItemSkeleton from './components/NewsItemSkeleton';
 import Navigation from './components/Navigation';
 import RealtimeNewsView from './components/RealtimeNewsView';
 import TopNewsView from './components/TopNewsView';
@@ -15,7 +14,6 @@ import { fetchNewsData } from './utils/api';
 import styles from './styles/App.module.css';
 
 function App() {
-  // State for Custom AI News
   const [jobTitle, setJobTitle] = useState('');
   const [customKeywords, setCustomKeywords] = useState([]);
   const [newsItems, setNewsItems] = useState([]);
@@ -23,16 +21,13 @@ function App() {
   const [error, setError] = useState(null);
   const [sortOrder, setSortOrder] = useState('sim');
 
-  // Pagination states
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(10);
   const [hasMoreNews, setHasMoreNews] = useState(true);
 
-  // State for UI
   const [selectedNews, setSelectedNews] = useState(null);
   const [activeTab, setActiveTab] = useState('custom');
 
-  // State for Scrapped News
   const [scrappedNews, setScrappedNews] = useState([]);
 
   useEffect(() => {
@@ -42,14 +37,12 @@ function App() {
     }
   }, []);
 
-  // Effect to reset news when search/sort criteria change
   useEffect(() => {
     setNewsItems([]);
     setCurrentPage(1);
     setHasMoreNews(true);
   }, [jobTitle, sortOrder]);
 
-  // Effect to fetch news when page or criteria change
   useEffect(() => {
     if (!jobTitle || activeTab !== 'custom') {
       setNewsItems([]);
@@ -68,8 +61,7 @@ function App() {
         const processedItems = fetchedNews.map(item => ({
           ...item,
           summary: item.description.replace(/&quot;/g, '"').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/<b>/g, '').replace(/<\/b>/g, ''),
-          tags: [],
-          isProcessing: false
+          tags: []
         }));
 
         setNewsItems(prevItems => {
@@ -114,7 +106,6 @@ function App() {
   }, []);
 
   const openModal = (item) => {
-    if (item.isProcessing) return;
     setSelectedNews(item);
   };
 
@@ -132,8 +123,8 @@ function App() {
     switch (activeTab) {
       case 'custom':
         return (
-          <>
-            <div className={styles.inputSection}>
+          <div>
+            <div className={styles.inputGroup}>
               <JobInput onJobSubmit={handleJobSubmit} initialJob={jobTitle} />
               {jobTitle && (
                 <KeywordInput keywords={customKeywords} setKeywords={setCustomKeywords} maxKeywords={MAX_CUSTOM_KEYWORDS} />
@@ -141,17 +132,15 @@ function App() {
             </div>
 
             {jobTitle && (
-              <div className={styles.sortContainer}>
+              <div className={styles.sortOptions}>
                 <button
-                  className={`${styles.sortButton} ${sortOrder === 'sim' ? styles.activeSort : ''}`}
-                  onClick={() => setSortOrder('sim')}
-                >
+                  className={`${styles.sortButton} ${sortOrder === 'sim' ? styles.active : ''}`}
+                  onClick={() => setSortOrder('sim')}>
                   관련도순
                 </button>
                 <button
-                  className={`${styles.sortButton} ${sortOrder === 'date' ? styles.activeSort : ''}`}
-                  onClick={() => setSortOrder('date')}
-                >
+                  className={`${styles.sortButton} ${sortOrder === 'date' ? styles.active : ''}`}
+                  onClick={() => setSortOrder('date')}>
                   날짜순
                 </button>
               </div>
@@ -159,30 +148,29 @@ function App() {
 
             {loading && newsItems.length === 0 && <div className={styles.loading}>뉴스 목록을 불러오는 중입니다...</div>}
             {error && <div className={styles.error}>{error}</div>}
-            <div className={styles.newsGrid}>
+            <div className={styles.newsList}>
               {newsItems.map((item, index) =>
-                item.isProcessing ? (
-                  <NewsItemSkeleton key={item.link || index} />
-                ) : (
-                  <NewsItem key={item.originallink || index} item={item} onItemClick={openModal} onScrap={handleScrap} />
-                )
+                <NewsItem key={item.originallink || index} item={item} onItemClick={openModal} onScrap={handleScrap} />
               )}
             </div>
             {hasMoreNews && !loading && newsItems.length > 0 && (
-              <div className={styles.loadMoreContainer}>
+              <div className={styles.loadMoreWrapper}>
                 <button onClick={handleLoadMore} className={styles.loadMoreButton} disabled={loading}>
                   더 많은 뉴스 보기
                 </button>
               </div>
             )}
             {loading && newsItems.length > 0 && <div className={styles.loading}>더 많은 뉴스 불러오는 중...</div>}
+
             {!loading && !hasMoreNews && newsItems.length > 0 && (
               <div className={styles.noMoreNews}>더 이상 뉴스가 없습니다.</div>
             )}
+
             {!loading && newsItems.length === 0 && jobTitle && !error && (
               <div className={styles.noResults}>입력된 직무와 키워드에 해당하는 뉴스가 없습니다.</div>
             )}
-          </>
+
+          </div>
         );
       case 'realtime':
         return <RealtimeNewsView onScrap={handleScrap} />;
@@ -196,13 +184,13 @@ function App() {
   };
 
   return (
-    <div className={styles.appContainer}>
-      <div className={styles.app}>
+    <div className={styles.wrapper}>
+      <div className={styles.container}>
         <header className={styles.header}>
-            <div className={styles.themeToggleContainer}>
-              <ThemeToggle />
-            </div>
-          <div className={styles.titleContainer}>
+          <div className={styles.themeToggle}>
+            <ThemeToggle />
+          </div>
+          <div className={styles.titleGroup}>
             <h1 className={styles.title}>뉴스 브리핑</h1>
           </div>
           <p className={styles.subtitle}>
