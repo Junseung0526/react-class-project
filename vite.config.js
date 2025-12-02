@@ -9,6 +9,7 @@ export default defineConfig(({ mode }) => {
 
   return {
     plugins: [react()],
+    base: "/react-class-project/",
     server: {
       port: 3000,
       proxy: {
