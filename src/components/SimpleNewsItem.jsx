@@ -1,16 +1,7 @@
 import styles from '../styles/SimpleNewsItem.module.css';
+import { formatDate } from '../utils/helpers';
 
 export default function SimpleNewsItem({ item, onScrap, onRemove }) {
-  const decodedTitle = item.title.replace(/&quot;/g, '"').replace(/&lt;/g, '<').replace(/&gt;/g, '>');
-
-  const formatDate = (dateString) => {
-    const date = new Date(dateString);
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const day = String(date.getDate()).padStart(2, '0');
-    return `${year}.${month}.${day}`;
-  };
-
   return (
     <div className={styles.item}>
       <div className={styles.content}>
@@ -19,9 +10,9 @@ export default function SimpleNewsItem({ item, onScrap, onRemove }) {
           target="_blank"
           rel="noopener noreferrer"
           className={styles.title}
-          dangerouslySetInnerHTML={{ __html: decodedTitle }}
+          dangerouslySetInnerHTML={{ __html: item.title }}
         />
-        <span className={styles.date}>{formatDate(item.pubDate)}</span>
+        <span className={styles.date}>{formatDate(item.pubDate, 'short')}</span>
       </div>
       {onScrap && (
         <button onClick={() => onScrap(item)} className={styles.scrapBtn}>

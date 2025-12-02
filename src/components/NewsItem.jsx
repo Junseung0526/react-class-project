@@ -1,23 +1,9 @@
-
 import styles from '../styles/NewsItem.module.css';
+import { formatDate, truncateText } from '../utils/helpers';
 
 export default function NewsItem({ item, onItemClick, onScrap }) {
-  const decodedTitle = item.title.replace(/&quot;/g, '"').replace(/&lt;/g, '<').replace(/&gt;/g, '>');
-
-  const formatDate = (dateString) => {
-    const date = new Date(dateString);
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const day = String(date.getDate()).padStart(2, '0');
-    const hours = String(date.getHours()).padStart(2, '0');
-    const minutes = String(date.getMinutes()).padStart(2, '0');
-    return `${year}.${month}.${day} ${hours}:${minutes}`;
-  };
-
   const summaryText = item.summary || '';
-  const truncatedSummary = summaryText.length > 100
-    ? `${summaryText.substring(0, 100)}...`
-    : summaryText;
+  const truncatedSummary = truncateText(summaryText, 100);
 
   return (
     <div className={styles.card} onClick={() => onItemClick(item)}>
@@ -28,7 +14,7 @@ export default function NewsItem({ item, onItemClick, onScrap }) {
             target="_blank"
             rel="noopener noreferrer"
             onClick={(e) => e.stopPropagation()}
-            dangerouslySetInnerHTML={{ __html: decodedTitle }}
+            dangerouslySetInnerHTML={{ __html: item.title }}
           />
         </h2>
         <a
@@ -42,7 +28,7 @@ export default function NewsItem({ item, onItemClick, onScrap }) {
         </a>
       </div>
 
-      <span className={styles.date}>{formatDate(item.pubDate)}</span>
+      <span className={styles.date}>{formatDate(item.pubDate, 'full')}</span>
 
       {summaryText && (
         <p className={styles.summary}>
