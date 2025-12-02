@@ -1,5 +1,5 @@
 import { X, Link, Twitter } from 'lucide-react';
-
+import { formatDate } from '../utils/helpers';
 import styles from '../styles/Modal.module.css';
 
 export default function Modal({ item, onClose, keywords = [] }) {
@@ -15,19 +15,11 @@ export default function Modal({ item, onClose, keywords = [] }) {
     return text.replace(regex, (match) => `<mark class="${styles.highlight}">${match}</mark>`);
   };
 
-  const decodedTitle = item.title.replace(/&quot;/g, '"').replace(/&lt;/g, '<').replace(/&gt;/g, '>');
-
-  const highlightedTitle = highlightKeywords(decodedTitle, keywords);
+  const highlightedTitle = highlightKeywords(item.title, keywords);
   // Use the pre-cleaned item.summary
   const highlightedDescription = highlightKeywords(item.summary, keywords);
 
-  const pubDate = item.pubDate ? new Date(item.pubDate).toLocaleDateString('ko-KR', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-    hour: '2-digit',
-    minute: '2-digit'
-  }) : '날짜 정보 없음';
+  const pubDate = item.pubDate ? formatDate(item.pubDate, 'locale') : '날짜 정보 없음';
 
   const handleCopyLink = async () => {
     try {
@@ -40,7 +32,7 @@ export default function Modal({ item, onClose, keywords = [] }) {
   };
 
   const handleShareTwitter = () => {
-    const tweetUrl = `https://twitter.com/intent/tweet?url=${encodeURIComponent(item.originallink)}&text=${encodeURIComponent(decodedTitle)}`;
+    const tweetUrl = `https://twitter.com/intent/tweet?url=${encodeURIComponent(item.originallink)}&text=${encodeURIComponent(item.title)}`;
     window.open(tweetUrl, '_blank', 'noopener,noreferrer');
   };
 
