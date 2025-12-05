@@ -16,7 +16,6 @@ export default function Modal({ item, onClose, keywords = [] }) {
   };
 
   const highlightedTitle = highlightKeywords(item.title, keywords);
-  // Use the pre-cleaned item.summary
   const highlightedDescription = highlightKeywords(item.summary, keywords);
 
   const pubDate = item.pubDate ? formatDate(item.pubDate, 'locale') : '날짜 정보 없음';
@@ -32,7 +31,7 @@ export default function Modal({ item, onClose, keywords = [] }) {
   };
 
   const handleShareTwitter = () => {
-    const tweetUrl = `https://twitter.com/intent/tweet?url=${encodeURIComponent(item.originallink)}&text=${encodeURIComponent(item.title)}`;
+    const tweetUrl = `https://X.com/intent/tweet?url=${encodeURIComponent(item.originallink)}&text=${encodeURIComponent(item.title)}`;
     window.open(tweetUrl, '_blank', 'noopener,noreferrer');
   };
 
@@ -65,7 +64,7 @@ export default function Modal({ item, onClose, keywords = [] }) {
             <button onClick={handleCopyLink} className={styles.shareButton} title="링크 복사">
               <Link size={20} />
             </button>
-            <button onClick={handleShareTwitter} className={styles.shareButton} title="트위터에 공유">
+            <button onClick={handleShareTwitter} className={styles.shareButton} title="X 에 공유">
               <X size={20} />
             </button>
           </div>

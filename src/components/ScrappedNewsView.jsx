@@ -1,5 +1,5 @@
 import SimpleNewsItem from './SimpleNewsItem';
-import styles from '../styles/RealtimeNews.module.css'; // Can reuse styles
+import styles from '../styles/RealtimeNews.module.css';
 
 export default function ScrappedNewsView({ items, onRemove }) {
   if (!items || items.length === 0) {

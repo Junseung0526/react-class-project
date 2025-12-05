@@ -1,5 +1,6 @@
 {
   "name": "react-class-project",
+  "homepage": "https://Junseung0526.github.io/react-class-project",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -16,6 +17,8 @@
     "lucide-react": "^0.553.0",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
+    "react-router": "^7.10.1",
+    "react-router-dom": "^7.10.1",
     "serve": "^14.2.5"
   },
   "devDependencies": {
