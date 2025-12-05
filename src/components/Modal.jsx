@@ -16,7 +16,6 @@ export default function Modal({ item, onClose, keywords = [] }) {
   };
 
   const highlightedTitle = highlightKeywords(item.title, keywords);
-  // Use the pre-cleaned item.summary
   const highlightedDescription = highlightKeywords(item.summary, keywords);
 
   const pubDate = item.pubDate ? formatDate(item.pubDate, 'locale') : '날짜 정보 없음';

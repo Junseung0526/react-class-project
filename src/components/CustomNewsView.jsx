@@ -2,7 +2,7 @@ import JobInput from './JobInput';
 import KeywordInput from './KeywordInput';
 import NewsItem from './NewsItem';
 import { MAX_CUSTOM_KEYWORDS } from '../utils/constants';
-import styles from '../styles/App.module.css'; // We can create a specific style file later if needed
+import styles from '../styles/App.module.css';
 
 export default function CustomNewsView({
   jobTitle,
