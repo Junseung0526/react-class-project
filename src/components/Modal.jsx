@@ -65,7 +65,7 @@ export default function Modal({ item, onClose, keywords = [] }) {
               <Link size={20} />
             </button>
             <button onClick={handleShareTwitter} className={styles.shareButton} title="트위터에 공유">
-              <X size={20} />
+              <Twitter size={20} />
             </button>
           </div>
           {item.originallink && (
