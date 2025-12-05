@@ -1,15 +1,14 @@
 export const fetchNewsData = async (query, sort = 'sim', start = 1, display = 100) => {
-  const clientId = import.meta.env.VITE_NAVER_CLIENT_ID;
-  const clientSecret = import.meta.env.VITE_NAVER_CLIENT_SECRET;
-
-  let url = `/naver-news-proxy?query=${encodeURIComponent(query)}&sort=${sort}&start=${start}&display=${display}`;
+  const baseUrl = 'https://openapi.naver.com/v1/search/news.json';
+  const proxyUrl = 'https://proxy.cors.sh/';
+  const fullUrl = `${proxyUrl}${baseUrl}?query=${encodeURIComponent(query)}&sort=${sort}&start=${start}&display=${display}`;
 
   try {
-    const response = await fetch(url, {
+    const response = await fetch(fullUrl, {
       method: 'GET',
       headers: {
-        'X-Naver-Client-Id': clientId,
-        'X-Naver-Client-Secret': clientSecret,
+        'X-Naver-Client-Id': import.meta.env.VITE_NAVER_CLIENT_ID,
+        'X-Naver-Client-Secret': import.meta.env.VITE_NAVER_CLIENT_SECRET,
       },
     });
 
